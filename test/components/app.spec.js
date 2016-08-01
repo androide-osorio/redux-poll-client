@@ -2,7 +2,7 @@ import { expect } from 'chai';
 import { renderComponent } from '../helpers';
 
 // import react component
-import App from '../../assets/js/App';
+import App from '../../src/components/App/App';
 
 /**
  * Application Component specs
@@ -25,7 +25,7 @@ describe('App Component', () => {
   // the app should greet the user
   it('should say hello', () => {
     // get the component's children
-    const paragraph = component.props.children;
+    const paragraph = component.props.children[1];
     expect(paragraph.props.children).to.equal('Hello!');
   });
 })

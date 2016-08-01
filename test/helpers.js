@@ -1,6 +1,8 @@
 // configure any helper you need for testing here
 import chai from 'chai';
 import sinonChai from 'sinon-chai';
+import chaiImmutable from 'chai-immutable';
+
 import React from 'react';
 import TestUtils from 'react-addons-test-utils';
 
@@ -23,3 +25,4 @@ export function renderComponent(ComponentClass, props = {}) {
 
 // configure any chai helper here
 chai.use(sinonChai);
+chai.use(chaiImmutable);
