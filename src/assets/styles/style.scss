@@ -1,0 +1,42 @@
+/*
+ * Those are styles for Hello
+ * Feel free to delete them
+ */
+
+body, html {
+  height: 100%;
+}
+
+#app {
+  height: 100%;
+}
+
+.container {
+  height: 100%;
+  width: 100%;
+  text-align: center;
+
+  display: flex;
+
+  /* Align Vertical */
+  align-items: center;
+  flex-direction: column;
+
+  /* Align Horizontal */
+  justify-content: center;
+
+  h1 {
+    font-family: 'Roboto', sans-serif;
+    font-size: 12vmin;
+    font-weight: 100;
+
+    /* Gradient Color */
+    background: linear-gradient(to left, #755BA6, #EA6A58);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+
+  img {
+    display: block;
+  }
+}
