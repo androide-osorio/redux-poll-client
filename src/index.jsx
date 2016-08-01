@@ -8,10 +8,13 @@ import { render } from 'react-dom'
 import { Router, Route, browserHistory, IndexRoute, Link } from 'react-router'
 
 // Import application Component
-import App from './components/App/App.jsx';
+import Voting from './components/Voting/Voting.jsx';
 
 // Define app container
 const destination = document.getElementById("app");
 
+// mock voting pair, for testing purposes
+const pair = ['Kill Bill', 'Pulp Fiction'];
+
 // Start Here
-render(<App />, destination);
+render(<Voting pair={pair} />, destination);

@@ -5,6 +5,30 @@ import chaiImmutable from 'chai-immutable';
 
 import React from 'react';
 import TestUtils from 'react-addons-test-utils';
+import jsdom from 'jsdom';
+
+/**
+ * Setup mock DOM for react testing
+ */
+function initMockDOM() {
+  // initialize a simple HTML document
+  // that will be rendered to a DOM tree
+  const doc = jsdom.jsdom('<!doctype html><html><body></body></html>');
+  const win = doc.defaultView;
+
+  // hoist the window and window.document
+  // globals to the node global object
+  global.document = doc;
+  global.window = win;
+
+  Object.keys(window).forEach((key) => {
+    if (!(key in global)) {
+      global[key] = window[key];
+    }
+  });
+}
+
+//-----------------------------------------------------
 
 /**
  * render a React component with the specified props.
@@ -13,7 +37,7 @@ import TestUtils from 'react-addons-test-utils';
  *
  * @return {Object} an object with the rendered component and related metadata
  */
-export function renderComponent(ComponentClass, props = {}) {
+export function renderShallowComponent(ComponentClass, props = {}) {
   const renderer = TestUtils.createRenderer();
   renderer.render(
     React.createElement(ComponentClass, props, null)
@@ -26,3 +50,6 @@ export function renderComponent(ComponentClass, props = {}) {
 // configure any chai helper here
 chai.use(sinonChai);
 chai.use(chaiImmutable);
+
+// initialize testing DOM
+initMockDOM();
