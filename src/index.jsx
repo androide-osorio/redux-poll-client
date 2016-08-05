@@ -17,4 +17,4 @@ const destination = document.getElementById("app");
 const pair = ['Kill Bill', 'Pulp Fiction'];
 
 // Start Here
-render(<Voting pair={pair} />, destination);
+render(<Voting pair={pair} hasVoted="Kill Bill" />, destination);

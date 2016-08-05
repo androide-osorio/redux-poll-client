@@ -14,7 +14,7 @@ import Voting from '../../src/components/Voting/Voting';
  */
 describe('Voting Component', () => {
   let component, votedWith;
-  const vote = (entry) => votedWith = entry;
+  let vote = (entry) => votedWith = entry;
   const initialProps = {
     pair: ['Kill Bill', 'Pulp Fiction'],
     vote
@@ -45,5 +45,30 @@ describe('Voting Component', () => {
     // simulate a click event into one of the component's buttons
     Simulate.click(buttons[0]);
     expect(votedWith).to.equal('Kill Bill');
+  });
+
+  describe('handles UI after voting', () => {
+    let component, buttons;
+    const props = Object.assign(
+      {}, initialProps, { hasVoted: 'Kill Bill' }
+    );
+
+    // render the component and get it, along with the props
+    // it now has after rendering
+    before(() => {
+      component = renderIntoDocument(
+        React.createElement(Voting, props, null)
+      );
+      buttons = scryRenderedDOMComponentsWithTag(component, 'button');
+    });
+
+    it('disables buttons when user has voted', () => {
+      expect(buttons[0].hasAttribute('disabled')).to.equal(true);
+      expect(buttons[1].hasAttribute('disabled')).to.equal(true);
+    });
+
+    it('adds a label to the button of the voted entry', () => {
+      expect(buttons[0].textContent).to.contain('Voted');
+    });
   });
 })
