@@ -1,5 +1,6 @@
 import { expect } from 'chai';
 import React from 'react';
+import ReactDOM from 'react-dom';
 import {
   renderIntoDocument,
   scryRenderedDOMComponentsWithTag,
@@ -69,6 +70,30 @@ describe('Voting Component', () => {
 
     it('adds a label to the button of the voted entry', () => {
       expect(buttons[0].textContent).to.contain('Voted');
+    });
+  });
+
+  describe('handles winner', () => {
+    let component, buttons;
+    const props = Object.assign(
+      {}, initialProps, { winner: 'Kill Bill' }
+    );
+
+    // render the component and get it, along with the props
+    // it now has after rendering
+    before(() => {
+      component = renderIntoDocument(
+        React.createElement(Voting, props, null)
+      );
+      buttons = scryRenderedDOMComponentsWithTag(component, 'button');
+    });
+
+    it('renders just the winner when there is one', () => {
+      expect(buttons.length).to.equal(0);
+
+      const winner = ReactDOM.findDOMNode(component.refs.winner);
+      expect(winner).to.be.ok;
+      expect(winner.textContent).to.contain('Kill Bill');
     });
   });
 })

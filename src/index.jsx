@@ -8,7 +8,7 @@ import { render } from 'react-dom'
 import { Router, Route, browserHistory, IndexRoute, Link } from 'react-router'
 
 // Import application Component
-import Voting from './components/Voting/Voting.jsx';
+import Voting from './components/Voting/Voting';
 
 // Define app container
 const destination = document.getElementById("app");
