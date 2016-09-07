@@ -6,6 +6,7 @@ import {
   scryRenderedDOMComponentsWithTag,
   Simulate
 } from 'react-addons-test-utils';
+import { List } from 'immutable';
 
 // import react component
 import Voting from '../../src/components/Voting/Voting';
@@ -16,10 +17,7 @@ import Voting from '../../src/components/Voting/Voting';
 describe('Voting Component', () => {
   let component, votedWith;
   let vote = (entry) => votedWith = entry;
-  const initialProps = {
-    pair: ['Kill Bill', 'Pulp Fiction'],
-    vote
-  };
+  let initialProps = { pair: ['Kill Bill', 'Pulp Fiction'], vote };
 
   // render the component and get it, along with the props
   // it now has after rendering
@@ -28,6 +26,59 @@ describe('Voting Component', () => {
       React.createElement(Voting, initialProps, null)
     );
     votedWith = null;
+  });
+
+  beforeEach(() => {
+    initialProps = { pair: ['Kill Bill', 'Pulp Fiction'], vote };
+  });
+
+  // test data immutability in the component
+  it('renders as pure component', () => {
+    const container = document.createElement('div');
+    let component = ReactDOM.render(
+      React.createElement(Voting, initialProps, null), container
+    );
+
+    // assert that the first button has the appropiate label
+    let firstButton = scryRenderedDOMComponentsWithTag(component, 'button')[0];
+    expect(firstButton.textContent).to.equal('Kill Bill');
+
+    initialProps.pair[0] = 'The Hateful Eight';
+    // simulate component re-rendering
+    component = ReactDOM.render(
+      React.createElement(Voting, initialProps, null), container
+    );
+
+    // the data inside the component should not have changed
+    firstButton = scryRenderedDOMComponentsWithTag(component, 'button')[0];
+    expect(firstButton.textContent).to.equal('Kill Bill');
+  });
+
+  // test data immutability in the component
+  it('updates DOM when a prop changes', () => {
+    const props = Object.assign(
+      {}, initialProps, { pair: new List(initialProps.pair) }
+    );
+    const container = document.createElement('div');
+    let component = ReactDOM.render(
+      React.createElement(Voting, props, null), container
+    );
+
+    // assert that the first button has the appropiate label
+    let firstButton = scryRenderedDOMComponentsWithTag(component, 'button')[0];
+    expect(firstButton.textContent).to.equal('Kill Bill');
+
+    // create new immutable props with changes
+    const newPair = props.pair.set(0, 'The Hateful Eight');
+    const newProps = Object.assign({}, props, { pair: newPair });
+    // simulate component re-rendering
+    component = ReactDOM.render(
+      React.createElement(Voting, newProps, null), container
+    );
+
+    // the data inside the component should have changed
+    firstButton = scryRenderedDOMComponentsWithTag(component, 'button')[0];
+    expect(firstButton.textContent).to.equal('The Hateful Eight');
   });
 
   // component can render two buttons with
